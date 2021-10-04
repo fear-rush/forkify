@@ -551,6 +551,21 @@ body {
   grid-area: shopping;
 }
 
+.copyright {
+  margin-top: auto;
+  font-size: 1.4rem;
+}
+
+.copyright .link {
+  display: block;
+  text-decoration: none;
+  transition: all 0.4s;
+}
+
+.copyright .link:hover {
+  color: coral;
+}
+
 .shopping-list {
   list-style: none;
   max-height: 77rem;
