@@ -272,6 +272,7 @@ body {
 
 .results__list {
   list-style: none;
+  grid-area: list;
 }
 
 .results__link:link, .results__link:visited, .likes__link:link, .likes__link:visited {
@@ -360,6 +361,7 @@ body {
 .recipe {
   background-color: #F9F5F3;
   border-top: 1px solid #fff;
+  grid-area: recipe;
 }
 
 .recipe__fig {
@@ -546,6 +548,7 @@ body {
   padding: 3rem 4rem;
   display: flex;
   flex-direction: column;
+  grid-area: shopping;
 }
 
 .shopping-list {
