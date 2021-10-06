@@ -6,13 +6,14 @@ export default class Search {
   }
 
   async getResults() {
-    try {
-      const key = '7f90296788214bfa924325cd9de77a29';
+    try {   
+      const key = process.env.API_KEY;
       const res = await axios(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${key}&query=${this.query}&number=30`);
+      // console.log(key);
       this.results = res.data.results;
       console.log(this.results);
     } catch(err) {
-      alert(error);
+      alert(err);
     }
   }
 }
