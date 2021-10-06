@@ -164,7 +164,7 @@ body {
   text-align: center;
 }
 
-.loader-svg {
+.loader svg {
   height: 5.5rem;
   width: 5.5rem;
   fill: #F59A83;
@@ -338,7 +338,7 @@ body {
   font-weight: 600;
 }
 
-.result__pages, .likes__pages {
+.results__pages, .likes__pages {
   margin-top: 3rem;
   padding: 0 3rem;
 }
