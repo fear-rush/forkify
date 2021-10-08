@@ -67,49 +67,38 @@ elements.searchResPages.addEventListener('click', e => {
  * Recipe Control
  */
 
-<<<<<<< HEAD
-// const recipe = new Recipe(663136);
-// recipe.getRecipe();
-// console.log(recipe);
-=======
-const controlRecipe = async () => {
-  // Get id from URL on windows object
+ const controlRecipe = async () => {
+  // Get ID from url
   const id = window.location.hash.replace('#', '');
-  console.log(id);
 
   if (id) {
-    recipeView.clearRecipe();
-    renderLoader(elements.recipe);
-    state.recipe = new Recipe(id);
+      // Prepare UI for changes
+      recipeView.clearRecipe();
+      renderLoader(elements.recipe);
 
-    try {
-      // Prepare for UI changes
+      // Highlight selected search item
+      if (state.search) searchView.highlightSelected(id);
 
-      // Get recipe data
-      await state.recipe.getRecipe();
-      state.recipe.parseIngredients();
-
-      // console.log(state.recipe.ingredients[0]);
-
-      // render recipe
-      clearLoader();
-      recipeView.renderRecipe(state.recipe);
-      searchView.highlightSelected(id);
+      // Create new recipe object
+      state.recipe = new Recipe(id);
       console.log(state.recipe);
 
-    } catch(err) {
-      console.log(err);
-    }
-  };
+      try {
+          // Get recipe data and parse ingredients
+          await state.recipe.getRecipe();
+          state.recipe.parseIngredients();
 
+  
+          // Render recipe
+          clearLoader();
+          recipeView.renderRecipe(state.recipe);
 
+      } catch (err) {
+          console.log(err);
+          alert('Error processing recipe!');
+      }
+  }
+};
 
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
-}
-
-// window.addEventListener('hashchange', controlRecipe);
-
-// multiple evenetlistener 
-// load merupakan eventlistener yang digunaakan saat load suatu page selesai, maka saat di load akan menjalankan controlRecipe
-['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe)); 
->>>>>>> 19f9dc5
