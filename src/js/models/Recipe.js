@@ -9,7 +9,8 @@ export default class Recipe {
     try {
       const key = process.env.API_KEY;
       const res = await axios(`https://api.spoonacular.com/recipes/${this.id}/information?apiKey=${key}&includeNutrition=false`);
-      this.image = await axios(`https://spoonacular.com/recipeImages/${this.id}-636x393.jpg`);
+      const img = await axios(`https://spoonacular.com/recipeImages/${this.id}-636x393.jpg`);
+      this.image = img.config.url;
       this.title = res.data.title;
       this.author = res.data.creditsText;
       this.url = res.data.spoonacularSourceUrl;
@@ -21,4 +22,22 @@ export default class Recipe {
       console.log(err);
     }
   }
+  
+  parseIngredients() {
+    const newIngredients = this.ingredients.map( (el, index) => {
+
+      let objIngredients = {};
+
+      objIngredients = {
+        count: this.ingredients[index].amount,
+        unit: this.ingredients[index].unit,
+        ingredient: this.ingredients[index].originalName
+      }
+
+      return objIngredients;
+
+    });
+    this.ingredients = newIngredients;
+  }
+
 }

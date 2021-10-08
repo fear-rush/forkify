@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { clearLoader, elements, renderLoader }  from './views/base';
 
 
@@ -27,12 +28,19 @@ const controlSearch = async ()=> {
     searchView.clearResults();
     renderLoader(elements.searchRes);
 
-    // 4. Search for recipes
-    await state.search.getResults(); // await karena async function always return promise
-  
-    // 5. Render results on UI
-    clearLoader();
-    searchView.renderResults(state.search.results);
+    try {
+      // 4. Search for recipes
+      await state.search.getResults(); // await karena async function always return promise
+    
+      // 5. Render results on UI
+      clearLoader();
+      searchView.renderResults(state.search.results);
+
+    } catch(err) {
+      console.log(err)
+      clearLoader();
+    }
+
   }
 }
 
@@ -59,6 +67,49 @@ elements.searchResPages.addEventListener('click', e => {
  * Recipe Control
  */
 
+<<<<<<< HEAD
 // const recipe = new Recipe(663136);
 // recipe.getRecipe();
 // console.log(recipe);
+=======
+const controlRecipe = async () => {
+  // Get id from URL on windows object
+  const id = window.location.hash.replace('#', '');
+  console.log(id);
+
+  if (id) {
+    recipeView.clearRecipe();
+    renderLoader(elements.recipe);
+    state.recipe = new Recipe(id);
+
+    try {
+      // Prepare for UI changes
+
+      // Get recipe data
+      await state.recipe.getRecipe();
+      state.recipe.parseIngredients();
+
+      // console.log(state.recipe.ingredients[0]);
+
+      // render recipe
+      clearLoader();
+      recipeView.renderRecipe(state.recipe);
+      searchView.highlightSelected(id);
+      console.log(state.recipe);
+
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+
+
+
+}
+
+// window.addEventListener('hashchange', controlRecipe);
+
+// multiple evenetlistener 
+// load merupakan eventlistener yang digunaakan saat load suatu page selesai, maka saat di load akan menjalankan controlRecipe
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe)); 
+>>>>>>> 19f9dc5
