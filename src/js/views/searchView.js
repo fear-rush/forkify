@@ -43,7 +43,7 @@ const limitRecipeTitle = (title, limit = 17) => {
 const renderRecipe = recipe => {
   const markup = `
     <li>
-      <a class="results__link" href=${recipe.id}>
+      <a class="results__link" href=#${recipe.id}>
           <figure class="results__fig">
               <img src=${recipe.image} alt="Test">
           </figure>
@@ -106,4 +106,12 @@ export const renderResults = (recipes, page = 1, resPerPage = 10) => {
   // jadi pada forEach dipassing fungsi callback renderRecipe dengan current Parameter nya adalah recipe
    recipes.slice(start, end).forEach(renderRecipe); 
    renderButtons(page, recipes.length, resPerPage);
+}
+
+export const highlightSelected = id => {
+  const allRecipe = Array.from(document.querySelectorAll('.results__link'));
+  allRecipe.forEach(el => {
+    el.classList.remove('results__link--active');
+  })
+  document.querySelector(`a[href='#${id}']`).classList.toggle('results__link--active');
 }
