@@ -35,6 +35,7 @@
     "axios": "^0.22.0",
     "babel-polyfill": "^6.26.0",
     "fractions": "^1.0.2",
-    "regenerator-runtime": "^0.11.1"
+    "regenerator-runtime": "^0.11.1",
+    "uniqid": "^5.4.0"
   }
 }

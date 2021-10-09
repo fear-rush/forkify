@@ -1,7 +1,9 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { clearLoader, elements, renderLoader }  from './views/base';
 
 
@@ -51,7 +53,7 @@ elements.searchForm.addEventListener('submit', e => {
 
 elements.searchResPages.addEventListener('click', e => {
   // closest akan mencari element terdekat (search keatas menuju ancestor) yang memiliki class .btn-inline. dan ini akan menghasilkan button dengan class btn-inline itu sendiri
-  const btn = e.target.closest('.btn-inline');
+  const btn = e.target.closest('.btn-inline *');
   if (btn) {
     // parse dengan base 10 (decimal)
     const goToPage = parseInt(btn.dataset.goto, 10);
@@ -77,7 +79,9 @@ elements.searchResPages.addEventListener('click', e => {
       renderLoader(elements.recipe);
 
       // Highlight selected search item
-      if (state.search) searchView.highlightSelected(id);
+      if (state.search) {
+        searchView.highlightSelected(id)
+      };
 
       // Create new recipe object
       state.recipe = new Recipe(id);
@@ -100,5 +104,74 @@ elements.searchResPages.addEventListener('click', e => {
   }
 };
 
+
+/***
+ * List Control
+ * 
+ */
+
+const controlList = () => {
+
+  // Create new list 
+  if (!state.list) {
+    state.list = new List();
+  }
+
+  // Add each ingredients to the list and UI
+  state.recipe.ingredients.forEach(el => {
+    const item = state.list.addItem(el.count, el.unit, el.ingredient);
+    listView.renderItem(item);
+  });
+
+  // Handle delete and update
+  elements.shopping.addEventListener('click', e => {
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+
+      // delete from list
+      state.list.deleteItem(id);
+
+      // delete from ui
+      listView.deleteItem(id);
+    } else if (e.target.matches('.shopping__count-value')) {
+      const val = e.target.value;
+      state.list.updateItem(id, val);
+    }
+
+
+
+
+  });
+
+}
+
+
+
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+elements.recipe.addEventListener('click', e => {
+  // artinya adalah jika event onClick targetnya match dengan class btn-decrease atau semua child yang ada di class btn-decrease maka akan dieksekusi
+  if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+    state.recipe.updateServings('dec');
+    recipeView.updateServingsIngredients(state.recipe);
+    // console.log(state.recipe);
+  } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+    state.recipe.updateServings('inc');
+    recipeView.updateServingsIngredients(state.recipe);
+    // console.log(state.recipe);
+  } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+    controlList();
+  }
+
+  // closest dan match interchangeable, bisa digunakan bolak balik sesuai kondisi yang diperlukan
+
+  // const btn = e.target.closest('.btn-increase');
+  // if (btn) {
+  //   state.recipe.updateServings('inc');
+  //   recipeView.updateServingsIngredients(state.recipe);
+  // }
+
+  
+
+})

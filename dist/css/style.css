@@ -516,7 +516,7 @@ body {
   padding: 2px;
   margin-right: 1rem;
   flex: 0 0 auto;
-  margin-top: 1rem;
+  margin-top: 0.1rem;
 }
 
 .recipe__count {
@@ -566,13 +566,13 @@ body {
   color: coral;
 }
 
-.shopping-list {
+.shopping__list {
   list-style: none;
   max-height: 77rem;
-  overflow: scroll;
+  overflow: none;
 }
 
-.shopping-item {
+.shopping__item {
   display: flex;
   align-items: flex-start;
   padding: 1.3rem 0;
@@ -631,7 +631,7 @@ body {
 
 .shopping__item:hover .shopping__delete {
   opacity: 1;
-  visibility: hidden;
+  visibility: visible;
 }
 
 
